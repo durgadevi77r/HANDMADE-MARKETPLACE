@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Test</title>
+</head>
+<body>
+    <h1>Testing Image URL</h1>
+    <p>Your image URL: https://thegathershop.co.za/cdn/shop/files/beadeddollsgroup.jpg?v=1713968947</p>
+    
+    <h2>Direct Image Test:</h2>
+    <img src="https://thegathershop.co.za/cdn/shop/files/beadeddollsgroup.jpg?v=1713968947" 
+         alt="Beaded Dolls" 
+         style="max-width: 300px; border: 1px solid #ccc;"
+         onload="console.log('Image loaded successfully')"
+         onerror="console.log('Image failed to load')">
+    
+    <h2>Test Results:</h2>
+    <div id="results"></div>
+    
+    <script>
+        // Test the image URL
+        const img = new Image();
+        const resultsDiv = document.getElementById('results');
+        
+        img.onload = function() {
+            resultsDiv.innerHTML = '<p style="color: green;">✅ Image loads successfully!</p>';
+        };
+        
+        img.onerror = function() {
+            resultsDiv.innerHTML = '<p style="color: red;">❌ Image failed to load. Possible issues:<br>' +
+                                  '- CORS restrictions<br>' +
+                                  '- Hotlinking protection<br>' +
+                                  '- Invalid URL<br>' +
+                                  '- Network issues</p>';
+        };
+        
+        img.src = 'https://thegathershop.co.za/cdn/shop/files/beadeddollsgroup.jpg?v=1713968947';
+    </script>
+</body>
+</html>
+
+
+
+

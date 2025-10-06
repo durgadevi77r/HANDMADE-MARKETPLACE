@@ -1,0 +1,76 @@
+/* ====== Modal Overlay ====== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(40, 40, 60, 0.45);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.4s ease;
+}
+
+/* ====== Modal Content ====== */
+.modal-content {
+  background: linear-gradient(135deg, #ffffff, #f7f7fb);
+  padding: 30px 35px;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(110, 90, 180, 0.25),
+              0 4px 8px rgba(0, 0, 0, 0.15);
+  position: relative;
+  min-width: 320px;
+  max-width: 480px;
+  text-align: center;
+  animation: popIn 0.4s ease;
+  font-family: 'Rubik', sans-serif;
+  transition: all 0.3s ease;
+}
+
+/* ====== Message Text ====== */
+.modal-message {
+  font-size: 1.15rem;
+  color: #2f2f2f;
+  margin-bottom: 20px;
+  line-height: 1.5;
+  padding: 10px 0;
+}
+
+/* ====== Close Button ====== */
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+  color: #8b8b8b;
+  transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+  color: #6a0dad;
+  text-shadow: 0 0 10px rgba(138, 43, 226, 0.6);
+  transform: scale(1.1);
+}
+
+/* ====== Keyframes ====== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popIn {
+  from {
+    transform: translateY(-20px) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}

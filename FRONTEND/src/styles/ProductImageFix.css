@@ -1,0 +1,205 @@
+/* Product Image Layout Fixes - PERFECT CIRCLE VERSION */
+.product-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: center;
+  text-align: center;
+}
+
+.card__media {
+  flex: 0 0 auto; /* Don't grow or shrink */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 15%;
+}
+
+.img-container {
+  width: 200px; /* Fixed width */
+  height: 200px; /* Fixed height - same as width for perfect circle */
+  overflow: hidden;
+  flex-shrink: 0; /* Prevent shrinking */
+  border-radius: 50%; /* This creates the round shape */
+  border: 3px solid #f0f0f0; /* Optional: adds a border */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Optional: adds depth */
+}
+
+/* Ensure images fill their containers and maintain round shape */
+.img-container img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* This ensures image covers the circle without distortion */
+}
+
+.img-container.trending-square {
+  width: 350px;        /* square width */
+  height: 350px;       /* same as width */
+  border-radius: 0;    /* square corners */
+  border: none;        /* optional: remove border for trending */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.img-container.trending-square img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* fill square container */
+}
+/* Product info section */
+.product-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  width: 100%;
+  align-items: center;
+}
+
+.product-card h3 {
+  margin-top: 15px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.product-card .price-info {
+  margin-top: auto;
+  padding-top: 8px;
+  text-align: center;
+}
+
+/* Star rating centered */
+.star-rating {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+/* Shop now button centered */
+.shop-now {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Responsive adjustments with circular images */
+@media (max-width: 1024px) {
+  .product-card {
+    min-height: 360px;
+  }
+  
+  .img-container {
+    width: 180px;
+    height: 180px;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-card {
+    min-height: 340px;
+  }
+  
+  .img-container {
+    width: 160px;
+    height: 160px;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-card {
+    min-height: 320px;
+  }
+  
+  .img-container {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+/* Ensure grid items have consistent spacing */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  /* gap: 30px; */
+  align-items: start; /* Align to top since heights might vary slightly */
+}
+
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+}
+
+/* Hover effects for circular images */
+.product-card:hover .img-container {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  border-color: #8D5F8C; /* Change border color on hover */
+}
+
+.img-container {
+  transition: all 0.3s ease;
+}
+
+/* Fallback for older browsers */
+@supports not (object-fit: cover) {
+  .img-container {
+    position: relative;
+    background: #f5f5f5;
+  }
+  
+  .img-container img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    min-width: 100%;
+    min-height: 100%;
+  }
+}
+
+/* Optional: Add different border colors for categories */
+.img-container.category-fashion {
+  border-color: #ff6b6b;
+}
+
+.img-container.category-electronics {
+  border-color: #4ecdc4;
+}
+
+.img-container.category-home {
+  border-color: #45b7d1;
+}
+
+.img-container.category-beauty {
+  border-color: #ff9ff3;
+}
+
+/* Loading state for images */
+.img-container.loading {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

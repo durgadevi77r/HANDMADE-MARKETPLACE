@@ -1,0 +1,258 @@
+/* 🌈 General Layout */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #2d2d2d;
+  background: linear-gradient(135deg, #f3e8ff, #faf5ff);
+  min-height: 100vh;
+}
+
+.admin-container {
+  padding: 30px;
+  max-width: 1300px;
+  margin: 0 auto;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+h1, h2 {
+  color: #5b21b6;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, #7c3aed, #c084fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 🔹 Tabs Section */
+.tab-container {
+  display: flex;
+  border-bottom: 2px solid #e2e8f0;
+  background: linear-gradient(135deg, #f9f9ff, #f5f3ff);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border-radius: 10px 10px 0 0;
+}
+
+.tab-button {
+  padding: 14px 26px;
+  border: none;
+  background: transparent;
+  font-size: 15px;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tab-button.active {
+  border-bottom: 3px solid #8b5cf6;
+  background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+  color: #4c1d95;
+  font-weight: 600;
+  box-shadow: inset 0 -3px 0 #8b5cf6;
+}
+
+.tab-button:hover {
+  background: #f3f4f6;
+  color: #6d28d9;
+}
+
+/* ⚙️ Filters and Inputs */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="search"],
+input {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 14px;
+  min-width: 220px;
+  transition: all 0.25s ease;
+  background: #ffffff;
+}
+
+input:focus {
+  border-color: #a78bfa;
+  box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.25);
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+/* 🔘 Filter Button */
+.filter-button {
+  background: linear-gradient(135deg, #a78bfa, #7c3aed);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-weight: 500;
+  box-shadow: 0 3px 8px rgba(124, 58, 237, 0.3);
+}
+
+.filter-button:hover {
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(124, 58, 237, 0.4);
+}
+
+/* 📊 Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  transition: transform 0.3s ease;
+}
+
+table:hover {
+  transform: scale(1.01);
+}
+
+thead {
+  background: linear-gradient(135deg, #ede9fe, #f3e8ff);
+  color: #4c1d95;
+}
+
+th, td {
+  text-align: left;
+  padding: 14px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 14px;
+}
+
+tr:hover {
+  background-color: #faf5ff;
+  transition: background 0.3s ease;
+}
+
+th {
+  font-weight: 600;
+  font-size: 15px;
+  text-transform: uppercase;
+}
+
+/* 💬 Review Cards */
+.review-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.review-user {
+  font-weight: bold;
+  color: #4c1d95;
+}
+
+.review-stars {
+  color: #fbbf24;
+  font-size: 18px;
+  margin: 8px 0;
+}
+
+/* ❤️ Wishlist Cards */
+.wishlist-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  background: white;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+
+.wishlist-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.wishlist-item {
+  border: 1px solid #f3f4f6;
+  border-radius: 8px;
+  padding: 10px;
+  background: #fafafa;
+  font-size: 13px;
+}
+
+/* 🧾 Totals Section */
+.totals-box {
+  background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+  border-left: 5px solid #8b5cf6;
+  padding: 16px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  color: #4c1d95;
+  font-weight: 500;
+}
+
+/* 🕓 Loading and Error */
+.loading-box {
+  text-align: center;
+  padding: 40px;
+  color: #6b7280;
+  animation: pulse 1.2s infinite;
+}
+
+.error-box {
+  color: #dc2626;
+  background: #fef2f2;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 6px rgba(255, 0, 0, 0.1);
+}
+
+/* ✨ Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  table {
+    font-size: 12px;
+  }
+
+  input {
+    min-width: 160px;
+  }
+
+  .tab-container {
+    flex-wrap: wrap;
+  }
+
+  .filter-button {
+    width: 100%;
+    margin-top: 10px;
+  }
+}

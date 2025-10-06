@@ -1,0 +1,108 @@
+/* Global Light Purple Theme */
+:root {
+  --purple-50: #faf5ff;
+  --purple-100: #f3e8ff;
+  --purple-200: #e9d5ff;
+  --purple-300: #d8b4fe;
+  --purple-400: #c4b5fd;
+  --purple-500: #a78bfa;
+  --purple-600: #8b5cf6;
+  --purple-700: #7c3aed;
+  --purple-800: #6d28d9;
+  --purple-900: #5b21b6;
+  --text-900: #111827;
+  --text-700: #374151;
+  --text-500: #6b7280;
+  --bg: linear-gradient(180deg, var(--purple-50) 0%, #ffffff 100%);
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--text-900);
+  background: var(--bg);
+}
+
+a {
+  font-weight: 500;
+  color: var(--purple-700);
+  text-decoration: none;
+}
+
+a:hover { color: var(--purple-800); }
+
+button {
+  border-radius: 10px;
+  border: 1px solid var(--purple-400);
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 600;
+  font-family: inherit;
+  background: linear-gradient(90deg, var(--purple-600), var(--purple-700));
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.25);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+button:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(124, 58, 237, 0.35); }
+button:focus { outline: 3px solid var(--purple-300); }
+
+/* Admin Shell Enhancements */
+.admin-shell {
+  padding: 16px;
+}
+
+.admin-card {
+  background: #ffffff;
+  border: 1px solid #eef2ff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.08);
+}
+
+.admin-table thead tr { background: var(--purple-100); }
+.admin-table th { color: var(--text-700); }
+
+/* Auth pages */
+.auth-container {
+  max-width: 420px;
+  margin: 40px auto;
+  padding: 24px;
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid var(--purple-200);
+  box-shadow: 0 10px 30px rgba(124, 58, 237, 0.12);
+}
+
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  outline: none;
+}
+
+.input:focus { border-color: var(--purple-400); box-shadow: 0 0 0 3px rgba(167, 139, 250, .25); }
+
+.navbar {
+  position: sticky; top: 0; z-index: 30;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.badge {
+  background: var(--purple-100);
+  color: var(--purple-800);
+  padding: 4px 8px;
+  border-radius: 9999px;
+  font-size: 12px;
+}
+
