@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "FRONTEND/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/FRONTEND/$1"
+    }
+  ],
+  "installCommand": "cd FRONTEND && npm install",
+  "buildCommand": "cd FRONTEND && npm run build",
+  "outputDirectory": "FRONTEND/dist"
+}
