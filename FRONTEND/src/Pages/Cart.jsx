@@ -158,11 +158,11 @@ const Cart = () => {
               <div className="price-breakdown">
                 <div className="price-row">
                   <span>Subtotal:</span>
-                  <span>${totalPrice.toFixed(2)}</span>
+                  <span>₹{totalPrice.toFixed(2)}</span>
                 </div>
                 <div className="price-row discount">
                   <span>Discount (12% OFF):</span>
-                  <span>-${discount.toFixed(2)}</span>
+                  <span>-₹{discount.toFixed(2)}</span>
                 </div>
                 <div className="price-row">
                   <span>Shipping:</span>
@@ -170,7 +170,7 @@ const Cart = () => {
                 </div>
                 <div className="price-row total">
                   <span>Total:</span>
-                  <span>${finalPrice.toFixed(2)}</span>
+                  <span>₹{finalPrice.toFixed(2)}</span>
                 </div>
               </div>
 
