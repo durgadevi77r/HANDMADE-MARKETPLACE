@@ -188,12 +188,12 @@ const Detail = () => {
             <div className="product-rating" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <StarRating rating={product.rating || 4.5} />
               <p className="rating-count">{product.rating || "4.5"}</p>
-              <button onClick={() => navigate(`/reviews/${productSlug}`)} title={`Show reviews (${reviewsTotal})`} style={{ marginLeft: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#111' }}>
+              {/* <button onClick={() => navigate(`/reviews/${productSlug}`)} title={`Show reviews (${reviewsTotal})`} style={{ marginLeft: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#111' }}>
                  Reviews ({reviewsTotal || reviews.length})
               </button>
               <button onClick={toggleWishlist} title={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'} style={{ marginLeft: 'auto', background: 'transparent', border: 'none', cursor: 'pointer' }}>
                 <span style={{ fontSize: 22, color: wishlisted ? 'red' : '#aaa' }}>❤</span>
-              </button>
+              </button> */}
             </div>
 
             <div className="price-section">

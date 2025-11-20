@@ -12,7 +12,7 @@ const StarRating = ({ rating = 0 }) => {
     <div className="star-rating">
       {stars.map((t, idx) => (
         <span key={idx} style={{ color: t === 'empty' ? '#d1d5db' : '#f59e0b' }}>
-          {t === 'half' ? '⭐' : '★'}
+          {t === 'half' ? '★' : '★'}
         </span>
       ))}
     </div>

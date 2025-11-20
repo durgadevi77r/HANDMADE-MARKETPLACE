@@ -70,7 +70,7 @@ const Header = () => {
         <li><Link to="/category">Category</Link></li>
         <li><Link to="/about">About</Link></li>
         <li><Link to="/contact">Contact</Link></li>
-        <li><Link to="/wishlist" title="Wishlist">Wishlist</Link></li>
+        {/* <li><Link to="/wishlist" title="Wishlist">Wishlist</Link></li> */}
         <li><Link to="/admin" title="Admin">Admin</Link></li>
       </ul>
 
@@ -91,11 +91,12 @@ const Header = () => {
             </button>
             <button
               aria-label="Account"
-              style={{ background: "transparent", border: "none", cursor: "pointer" , padding:"5px 15px" }}
+              className="icon-btn"
               onClick={() => navigate("/account")}
             >
               <UserIcon />
             </button>
+
 
             <div className="cart">
               <Link to="/cart" className="cart-link">

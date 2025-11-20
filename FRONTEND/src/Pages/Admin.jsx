@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { apiFetch } from '../utils/api';
-import './Admin.css'
+import './Admin.css';
 
 const Admin = () => {
   const [filters, setFilters] = useState({ date: '', month: '', year: '', from: '', to: '' });
@@ -105,192 +105,293 @@ const Admin = () => {
   }, [productSearch]);
 
   return (
-    <div style={{ padding: 16 }}>
-      <h1>Admin Dashboard</h1>
+    <div className="admin-container">
+      <header className="admin-header">
+        <h1 className="admin-title">Admin Dashboard</h1>
+      </header>
       
       {/* Tab Navigation */}
-      <div style={{ marginBottom: 24, borderBottom: '2px solid #e5e7eb', position: 'sticky', top: 0, background: 'linear-gradient(90deg,#f8fafc,#ffffff)', zIndex: 5 }}>
-        <div style={{ display: 'flex', gap: 0 }}>
+      <nav className="admin-nav">
+        <div className="nav-tabs">
           {[
             { key: 'orders', label: `Orders (${report?.totals?.orders || 0})`, icon: '📦' },
             { key: 'products', label: `Products (${products.length})`, icon: '🛍️' },
             { key: 'users', label: `Users (${users.length})`, icon: '👥' },
             { key: 'reviews', label: `Reviews (${reviews.length})`, icon: '⭐' },
-            { key: 'wishlists', label: `Wishlists (${wishlists.length})`, icon: '❤️' }
+            // { key: 'wishlists', label: `Wishlists (${wishlists.length})`, icon: '❤️' }
           ].map(tab => (
-        <button 
+            <button 
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-          style={{ 
-                padding: '12px 20px',
-            border: 'none',
-                borderBottom: activeTab === tab.key ? '3px solid #3b82f6' : '3px solid transparent',
-                background: activeTab === tab.key ? '#eff6ff' : 'transparent',
-                color: activeTab === tab.key ? '#1d4ed8' : '#6b7280',
-                cursor: 'pointer',
-                fontWeight: activeTab === tab.key ? 'bold' : 'normal',
-                fontSize: '14px'
-              }}
+              className={`nav-tab ${activeTab === tab.key ? 'nav-tab--active' : ''}`}
             >
-              {tab.icon} {tab.label}
-        </button>
+              <span className="nav-tab-icon">{tab.icon}</span>
+              <span className="nav-tab-label">{tab.label}</span>
+            </button>
           ))}
         </div>
-      </div>
+      </nav>
       
-      {error && <div style={{ color: '#dc2626', marginBottom: 16, padding: 12, background: '#fef2f2', borderRadius: 8 }}>{error}</div>}
+      {error && (
+        <div className="error-alert">
+          <span className="error-icon">⚠️</span>
+          {error}
+        </div>
+      )}
       
       {loading && (
-        <div style={{ textAlign: 'center', padding: 40, color: '#6b7280' }}>
-          <div style={{ fontSize: '18px', marginBottom: 8 }}>🔄 Loading Admin Data...</div>
-          <div style={{ fontSize: '14px' }}>Fetching products, users, reviews, and wishlists...</div>
+        <div className="loading-state">
+          <div className="loading-spinner"></div>
+          <div className="loading-text">Loading Admin Data...</div>
+          <div className="loading-subtext">Fetching products, users, reviews, and wishlists...</div>
         </div>
       )}
 
       {/* Tab Content - Only show when not loading */}
       {!loading && activeTab === 'orders' && (
-        <div>
-        <h2>Orders Report</h2>
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 12 }}>
-          <input
-            ref={ordersSearchRef}
-            placeholder="Search orders (name, email, product)"
-            value={ordersSearch}
-            onChange={(e) => setOrdersSearch(e.target.value)}
-            style={{ padding: 8, minWidth: 280 }}
-          />
-        </div>
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 12 }}>
-          <input placeholder="Date (1-31)" value={filters.date} onChange={(e) => setFilters({ ...filters, date: e.target.value })} />
-          <input placeholder="Month (1-12)" value={filters.month} onChange={(e) => setFilters({ ...filters, month: e.target.value })} />
-          <input placeholder="Year" value={filters.year} onChange={(e) => setFilters({ ...filters, year: e.target.value })} />
-          <input placeholder="From (YYYY-MM-DD)" value={filters.from} onChange={(e) => setFilters({ ...filters, from: e.target.value })} />
-          <input placeholder="To (YYYY-MM-DD)" value={filters.to} onChange={(e) => setFilters({ ...filters, to: e.target.value })} />
-            <button onClick={load} style={{ padding: '8px 16px', background: '#3b82f6', color: 'white', border: 'none', borderRadius: 4, cursor: 'pointer' }}>Filter</button>
-        </div>
-        {report && (
-          <div>
-              <div style={{ marginBottom: 16, padding: 12, background: '#f8fafc', borderRadius: 8 }}>
-              <strong>Totals</strong>: Orders {report.totals?.orders} • Subtotal ₹{report.totals?.subtotalAmount?.toFixed?.(2)} • Discount ₹{report.totals?.discountAmount?.toFixed?.(2)} • Total ₹{report.totals?.totalAmount?.toFixed?.(2)}
-            </div>
-            <div>
-                <table style={{ width: '100%', borderCollapse: 'collapse', background: 'white', borderRadius: 8,}}>
-                <thead>
-                    <tr style={{ background: '#f1f5f9' }}>
-                      <th style={{ textAlign: 'left', borderBottom: '1px solid #e2e8f0', padding: 12 }}>User Info</th>
-                      <th style={{ textAlign: 'left', borderBottom: '1px solid #e2e8f0', padding: 12 }}>Order Time</th>
-                      <th style={{ textAlign: 'left', borderBottom: '1px solid #e2e8f0', padding: 12 }}>Products</th>
-                      <th style={{ textAlign: 'left', borderBottom: '1px solid #e2e8f0', padding: 12 }}>Payment</th>
-                      <th style={{ textAlign: 'left', borderBottom: '1px solid #e2e8f0', padding: 12 }}>Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {report.orders?.filter((o) => {
-                    const q = ordersSearch.toLowerCase();
-                    if (!q) return true;
-                    const products = (o.items || []).map(i => (i.name || '')).join(' ').toLowerCase();
-                    return (
-                      (o.userName || '').toLowerCase().includes(q) ||
-                      (o.deliveryDetails?.email || '').toLowerCase().includes(q) ||
-                      products.includes(q)
-                    );
-                  }).map((o) => (
-                    <tr key={o.id}>
-                        <td style={{ borderBottom: '1px solid #f1f5f9', padding: 12 }}>
-                        <div><strong>Name:</strong> {o.userName}</div>
-                        <div><strong>Email:</strong> {o.deliveryDetails?.email || 'N/A'}</div>
-                        <div><strong>Phone:</strong> {o.deliveryDetails?.phone1 || 'N/A'}</div>
-                        <div><strong>Address:</strong> {o.deliveryDetails?.address || 'N/A'}</div>
-                      </td>
-                        <td style={{ borderBottom: '1px solid #f1f5f9', padding: 12 }}>{new Date(o.orderTime).toLocaleString()}</td>
-                        <td style={{ borderBottom: '1px solid #f1f5f9', padding: 12 }}>
-                        {o.items?.map((i, idx) => (
-                          <div key={idx} style={{ marginBottom: 4 }}>
-                            <div><strong>{i.name}</strong></div>
-                            <div>Qty: {i.quantity} × ₹{i.amount?.toFixed(2)} = ₹{((i.amount || 0) * (i.quantity || 0)).toFixed(2)}</div>
-                          </div>
-                        ))}
-                      </td>
-                        <td style={{ borderBottom: '1px solid #f1f5f9', padding: 12 }}>
-                        <div><strong>Method:</strong> {o.paymentMode}</div>
-                        <div><strong>Subtotal:</strong> ₹{o.subtotalAmount?.toFixed(2)}</div>
-                        <div><strong>Discount:</strong> ₹{o.discountAmount?.toFixed(2)}</div>
-                      </td>
-                        <td style={{ borderBottom: '1px solid #f1f5f9', padding: 12 }}>
-                        <div style={{ fontSize: '18px', fontWeight: 'bold' }}>₹{(o.totalAmount ?? 0).toFixed(2)}</div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+        <div className="tab-content">
+          <div className="tab-header">
+            <h2 className="tab-title">Orders Report</h2>
+            <div className="search-container">
+              <input
+                ref={ordersSearchRef}
+                placeholder="Search orders (name, email, product)"
+                value={ordersSearch}
+                onChange={(e) => setOrdersSearch(e.target.value)}
+                className="search-input"
+              />
             </div>
           </div>
-        )}
+          
+          <div className="filters-container">
+            <div className="filters-grid">
+              <input 
+                placeholder="Date (1-31)" 
+                value={filters.date} 
+                onChange={(e) => setFilters({ ...filters, date: e.target.value })} 
+                className="filter-input"
+              />
+              <input 
+                placeholder="Month (1-12)" 
+                value={filters.month} 
+                onChange={(e) => setFilters({ ...filters, month: e.target.value })} 
+                className="filter-input"
+              />
+              <input 
+                placeholder="Year" 
+                value={filters.year} 
+                onChange={(e) => setFilters({ ...filters, year: e.target.value })} 
+                className="filter-input"
+              />
+              <input 
+                placeholder="From (YYYY-MM-DD)" 
+                value={filters.from} 
+                onChange={(e) => setFilters({ ...filters, from: e.target.value })} 
+                className="filter-input"
+              />
+              <input 
+                placeholder="To (YYYY-MM-DD)" 
+                value={filters.to} 
+                onChange={(e) => setFilters({ ...filters, to: e.target.value })} 
+                className="filter-input"
+              />
+              <button onClick={load} className="filter-button">
+                Apply Filters
+              </button>
+            </div>
+          </div>
+          
+          {report && (
+            <div className="report-container">
+              <div className="summary-card">
+                <div className="summary-grid">
+                  <div className="summary-item">
+                    <span className="summary-label">Total Orders</span>
+                    <span className="summary-value">{report.totals?.orders}</span>
+                  </div>
+                  <div className="summary-item">
+                    <span className="summary-label">Subtotal</span>
+                    <span className="summary-value">₹{report.totals?.subtotalAmount?.toFixed?.(2)}</span>
+                  </div>
+                  <div className="summary-item">
+                    <span className="summary-label">Discount</span>
+                    <span className="summary-value discount">₹{report.totals?.discountAmount?.toFixed?.(2)}</span>
+                  </div>
+                  <div className="summary-item">
+                    <span className="summary-label">Total Amount</span>
+                    <span className="summary-value total">₹{report.totals?.totalAmount?.toFixed?.(2)}</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="table-container">
+                <table className="data-table">
+                  <thead className="table-header">
+                    <tr>
+                      <th className="table-cell">User Information</th>
+                      <th className="table-cell">Order Time</th>
+                      <th className="table-cell">Products</th>
+                      <th className="table-cell">Payment Details</th>
+                      <th className="table-cell">Total Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody className="table-body">
+                    {report.orders?.filter((o) => {
+                      const q = ordersSearch.toLowerCase();
+                      if (!q) return true;
+                      const products = (o.items || []).map(i => (i.name || '')).join(' ').toLowerCase();
+                      return (
+                        (o.userName || '').toLowerCase().includes(q) ||
+                        (o.deliveryDetails?.email || '').toLowerCase().includes(q) ||
+                        products.includes(q)
+                      );
+                    }).map((o) => (
+                      <tr key={o.id} className="table-row">
+                        <td className="table-cell">
+                          <div className="user-info">
+                            <div className="info-item">
+                              <strong>Name:</strong> {o.userName}
+                            </div>
+                            <div className="info-item">
+                              <strong>Email:</strong> {o.deliveryDetails?.email || 'N/A'}
+                            </div>
+                            <div className="info-item">
+                              <strong>Phone:</strong> {o.deliveryDetails?.phone1 || 'N/A'}
+                            </div>
+                            <div className="info-item">
+                              <strong>Address:</strong> {o.deliveryDetails?.address || 'N/A'}
+                            </div>
+                          </div>
+                        </td>
+                        <td className="table-cell">
+                          <div className="order-time">
+                            {new Date(o.orderTime).toLocaleString()}
+                          </div>
+                        </td>
+                        <td className="table-cell">
+                          <div className="products-list">
+                            {o.items?.map((i, idx) => (
+                              <div key={idx} className="product-item">
+                                <div className="product-name">{i.name}</div>
+                                <div className="product-quantity">
+                                  Qty: {i.quantity} × ₹{i.amount?.toFixed(2)} = ₹{((i.amount || 0) * (i.quantity || 0)).toFixed(2)}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </td>
+                        <td className="table-cell">
+                          <div className="payment-info">
+                            <div className="payment-item">
+                              <strong>Method:</strong> {o.paymentMode}
+                            </div>
+                            <div className="payment-item">
+                              <strong>Subtotal:</strong> ₹{o.subtotalAmount?.toFixed(2)}
+                            </div>
+                            <div className="payment-item">
+                              <strong>Discount:</strong> ₹{o.discountAmount?.toFixed(2)}
+                            </div>
+                          </div>
+                        </td>
+                        <td className="table-cell">
+                          <div className="total-amount">
+                            ₹{(o.totalAmount ?? 0).toFixed(2)}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
       {/* Products Tab */}
       {!loading && activeTab === 'products' && (
-        <div>
-          <h2>All Products ({productTotal})</h2>
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 8 }}>
-            <input
-              ref={productSearchRef}
-              placeholder="Search by name, description, category..."
-              value={productSearch}
-              onChange={(e) => setProductSearch(e.target.value)}
-              style={{ padding: 10, minWidth: 300, border: '1px solid #cbd5e1', borderRadius: 8 }}
-            />
-            {productSearch && (
-              <button onClick={() => { setProductSearch(''); if (productSearchRef.current) productSearchRef.current.focus(); }} style={{ padding: '8px 12px' }}>Clear</button>
-            )}
+        <div className="tab-content">
+          <div className="tab-header">
+            <h2 className="tab-title">All Products ({productTotal})</h2>
+            <div className="search-container">
+              <input
+                ref={productSearchRef}
+                placeholder="Search by name, description, category..."
+                value={productSearch}
+                onChange={(e) => setProductSearch(e.target.value)}
+                className="search-input"
+              />
+              {productSearch && (
+                <button 
+                  onClick={() => { 
+                    setProductSearch(''); 
+                    if (productSearchRef.current) productSearchRef.current.focus(); 
+                  }} 
+                  className="clear-button"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
           </div>
-          <div style={{ maxHeight: '600px', overflowY: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', background: 'white', borderRadius: 8, overflow: 'hidden' }}>
-              <thead>
-                <tr style={{ background: '#f1f5f9' }}>
-                  <th style={{ textAlign: 'left', borderBottom: '1px solid #e2e8f0', padding: 12 }}>ID</th>
-                  <th style={{ textAlign: 'left', borderBottom: '1px solid #e2e8f0', padding: 12 }}>Name</th>
-                  <th style={{ textAlign: 'left', borderBottom: '1px solid #e2e8f0', padding: 12 }}>Category</th>
-                  <th style={{ textAlign: 'left', borderBottom: '1px solid #e2e8f0', padding: 12 }}>Price</th>
-                  <th style={{ textAlign: 'left', borderBottom: '1px solid #e2e8f0', padding: 12 }}>Offer</th>
-                  <th style={{ textAlign: 'left', borderBottom: '1px solid #e2e8f0', padding: 12 }}>Stock</th>
-                  <th style={{ textAlign: 'left', borderBottom: '1px solid #e2e8f0', padding: 12 }}>Reviews</th>
-                  <th style={{ textAlign: 'left', borderBottom: '1px solid #e2e8f0', padding: 12 }}>Orders</th>
+          
+          <div className="table-container">
+            <table className="data-table">
+              <thead className="table-header">
+                <tr>
+                  <th className="table-cell">ID</th>
+                  <th className="table-cell">Product Details</th>
+                  <th className="table-cell">Category</th>
+                  <th className="table-cell">Price</th>
+                  <th className="table-cell">Offer</th>
+                  <th className="table-cell">Stock Status</th>
+                  <th className="table-cell">Reviews</th>
+                  <th className="table-cell">Orders</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="table-body">
                 {products.map((product, idx) => (
-                  <tr key={product._id || idx}>
-                    <td style={{ borderBottom: '1px solid #f1f5f9', padding: 12, fontSize: '12px', color: '#6b7280' }}>{product.id || product._id}</td>
-                    <td style={{ borderBottom: '1px solid #f1f5f9', padding: 12 }}>
-                      <div style={{ fontWeight: 'bold' }}>{product.name}</div>
-                      <div style={{ fontSize: '12px', color: '#6b7280' }}>{product.material}</div>
+                  <tr key={product._id || idx} className="table-row">
+                    <td className="table-cell product-id">
+                      {product.id || product._id}
                     </td>
-                    <td style={{ borderBottom: '1px solid #f1f5f9', padding: 12 }}>
-                      <div>{product.category}</div>
-                      <div style={{ fontSize: '12px', color: '#6b7280' }}>{product.subcategory}</div>
+                    <td className="table-cell">
+                      <div className="product-details">
+                        <div className="product-name">{product.name}</div>
+                        <div className="product-material">{product.material}</div>
+                      </div>
                     </td>
-                    <td style={{ borderBottom: '1px solid #f1f5f9', padding: 12 }}>₹{product.price}</td>
-                    <td style={{ borderBottom: '1px solid #f1f5f9', padding: 12 }}>
-                      {product.offer > 0 ? `${product.offer}% OFF` : 'No Offer'}
+                    <td className="table-cell">
+                      <div className="category-info">
+                        <div className="category-name">{product.category}</div>
+                        <div className="subcategory-name">{product.subcategory}</div>
+                      </div>
                     </td>
-                    <td style={{ borderBottom: '1px solid #f1f5f9', padding: 12 }}>
-                      <span style={{ 
-                        padding: '4px 8px', 
-                        borderRadius: 4, 
-                        fontSize: '12px',
-                        background: (product.stock || 0) > 0 ? '#dcfce7' : '#fee2e2',
-                        color: (product.stock || 0) > 0 ? '#166534' : '#dc2626'
-                      }}>
+                    <td className="table-cell product-price">
+                      ₹{product.price}
+                    </td>
+                    <td className="table-cell">
+                      <span className={`offer-badge ${product.offer > 0 ? 'offer-active' : ''}`}>
+                        {product.offer > 0 ? `${product.offer}% OFF` : 'No Offer'}
+                      </span>
+                    </td>
+                    <td className="table-cell">
+                      <span className={`stock-badge ${(product.stock || 0) > 0 ? 'stock-in' : 'stock-out'}`}>
                         {product.stock || 0} units
                       </span>
                     </td>
-                    <td style={{ borderBottom: '1px solid #f1f5f9', padding: 12 }}>
-                      <div>{product.reviewCount || 0} reviews</div>
-                      <div style={{ color: '#f59e0b' }}>{'★'.repeat(Math.round(product.rating || 0))}{'☆'.repeat(5 - Math.round(product.rating || 0))}</div>
+                    <td className="table-cell">
+                      <div className="review-info">
+                        <div className="review-count">{product.reviewCount || 0} reviews</div>
+                        <div className="rating-stars">
+                          {'★'.repeat(Math.round(product.rating || 0))}
+                          {'☆'.repeat(5 - Math.round(product.rating || 0))}
+                        </div>
+                      </div>
                     </td>
-                    <td style={{ borderBottom: '1px solid #f1f5f9', padding: 12 }}>{product.orderCount || 0}</td>
+                    <td className="table-cell order-count">
+                      {product.orderCount || 0}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -301,42 +402,43 @@ const Admin = () => {
 
       {/* Users Tab */}
       {!loading && activeTab === 'users' && (
-        <div>
-          <h2>All Users ({users.length})</h2>
-          <div style={{ maxHeight: '600px', overflowY: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', background: 'white', borderRadius: 8, overflow: 'hidden' }}>
-              <thead>
-                <tr style={{ background: '#f1f5f9' }}>
-                  <th style={{ textAlign: 'left', borderBottom: '1px solid #e2e8f0', padding: 12 }}>Name</th>
-                  <th style={{ textAlign: 'left', borderBottom: '1px solid #e2e8f0', padding: 12 }}>Email</th>
-                  <th style={{ textAlign: 'left', borderBottom: '1px solid #e2e8f0', padding: 12 }}>Role</th>
-                  <th style={{ textAlign: 'left', borderBottom: '1px solid #e2e8f0', padding: 12 }}>Joined</th>
-                  <th style={{ textAlign: 'left', borderBottom: '1px solid #e2e8f0', padding: 12 }}>Wishlist</th>
+        <div className="tab-content">
+          <div className="tab-header">
+            <h2 className="tab-title">All Users ({users.length})</h2>
+          </div>
+          
+          <div className="table-container">
+            <table className="data-table">
+              <thead className="table-header">
+                <tr>
+                  <th className="table-cell">Name</th>
+                  <th className="table-cell">Email</th>
+                  <th className="table-cell">Role</th>
+                  <th className="table-cell">Joined Date</th>
+                  <th className="table-cell">Wishlist Items</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="table-body">
                 {users.map((user, idx) => (
-                  <tr key={user._id || idx}>
-                    <td style={{ borderBottom: '1px solid #f1f5f9', padding: 12 }}>
-                      <div style={{ fontWeight: 'bold' }}>{user.name}</div>
+                  <tr key={user._id || idx} className="table-row">
+                    <td className="table-cell">
+                      <div className="user-name">{user.name}</div>
                     </td>
-                    <td style={{ borderBottom: '1px solid #f1f5f9', padding: 12 }}>{user.email}</td>
-                    <td style={{ borderBottom: '1px solid #f1f5f9', padding: 12 }}>
-                      <span style={{ 
-                        padding: '4px 8px', 
-                        borderRadius: 4, 
-                        fontSize: '12px',
-                        background: user.role === 'admin' ? '#dbeafe' : '#f3f4f6',
-                        color: user.role === 'admin' ? '#1d4ed8' : '#374151'
-                      }}>
+                    <td className="table-cell user-email">
+                      {user.email}
+                    </td>
+                    <td className="table-cell">
+                      <span className={`role-badge ${user.role === 'admin' ? 'role-admin' : 'role-user'}`}>
                         {user.role || 'user'}
                       </span>
                     </td>
-                    <td style={{ borderBottom: '1px solid #f1f5f9', padding: 12 }}>
+                    <td className="table-cell join-date">
                       {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}
                     </td>
-                    <td style={{ borderBottom: '1px solid #f1f5f9', padding: 12 }}>
-                      {user.wishlist?.length || 0} items
+                    <td className="table-cell">
+                      <span className="wishlist-count">
+                        {user.wishlist?.length || 0} items
+                      </span>
                     </td>
                   </tr>
                 ))}
@@ -348,18 +450,21 @@ const Admin = () => {
 
       {/* Reviews Tab */}
       {!loading && activeTab === 'reviews' && (
-        <div>
-          <h2>All Reviews ({reviews.length})</h2>
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 12 }}>
-            <input
-              ref={reviewsSearchRef}
-              placeholder="Search reviews (user, product, text)"
-              value={reviewsSearch}
-              onChange={(e) => setReviewsSearch(e.target.value)}
-              style={{ padding: 8, minWidth: 280 }}
-            />
+        <div className="tab-content">
+          <div className="tab-header">
+            <h2 className="tab-title">All Reviews ({reviews.length})</h2>
+            <div className="search-container">
+              <input
+                ref={reviewsSearchRef}
+                placeholder="Search reviews (user, product, text)"
+                value={reviewsSearch}
+                onChange={(e) => setReviewsSearch(e.target.value)}
+                className="search-input"
+              />
+            </div>
           </div>
-          <div style={{ maxHeight: '600px', overflowY: 'auto' }}>
+          
+          <div className="reviews-grid">
             {reviews.filter((r) => {
               const q = reviewsSearch.toLowerCase();
               if (!q) return true;
@@ -369,68 +474,72 @@ const Admin = () => {
                 (r.text || '').toLowerCase().includes(q)
               );
             }).map((review, idx) => (
-              <div key={review._id || idx} style={{ border: '1px solid #e5e7eb', borderRadius: 8, padding: 16, marginBottom: 12, background: 'white' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                  <strong style={{ color: '#1f2937' }}>{review.userName || 'Anonymous'}</strong>
-                  <span style={{ color: '#6b7280', fontSize: '12px' }}>
-                    {new Date(review.createdAt).toLocaleDateString()}
-                  </span>
+              <div key={review._id || idx} className="review-card">
+                <div className="review-header">
+                  <div className="reviewer-info">
+                    <strong className="reviewer-name">{review.userName || 'Anonymous'}</strong>
+                    <span className="review-date">
+                      {new Date(review.createdAt).toLocaleDateString()}
+                    </span>
+                  </div>
                 </div>
-                <div style={{ color: '#f59e0b', marginBottom: 8, fontSize: '16px' }}>
-                  {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)} ({review.rating}/5)
+                <div className="rating-container">
+                  <div className="rating-stars">
+                    {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
+                  </div>
+                  <span className="rating-value">({review.rating}/5)</span>
                 </div>
-                <div style={{ marginBottom: 4 }}><strong>Product:</strong> {review.productName}</div>
-                <div style={{ color: '#4b5563', lineHeight: '1.5' }}><strong>Review:</strong> {review.text}</div>
+                <div className="review-product">
+                  <strong>Product:</strong> {review.productName}
+                </div>
+                <div className="review-text">
+                  <strong>Review:</strong> {review.text}
+                </div>
               </div>
             ))}
           </div>
         </div>
       )}
 
-      {/* Wishlists Tab */}
+      {/* Wishlists Tab
       {!loading && activeTab === 'wishlists' && (
-        <div>
-          <h2>User Wishlists ({wishlists.length})</h2>
-          <div style={{ maxHeight: '600px', overflowY: 'auto' }}>
+        <div className="tab-content">
+          <div className="tab-header">
+            <h2 className="tab-title">User Wishlists ({wishlists.length})</h2>
+          </div>
+          
+          <div className="wishlists-grid">
             {wishlists.map((wishlist, idx) => (
-              <div key={wishlist.userId || idx} style={{ border: '1px solid #e5e7eb', borderRadius: 8, padding: 16, marginBottom: 12, background: 'white' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                  <div>
-                    <div style={{ fontWeight: 'bold', fontSize: '16px' }}>{wishlist.userName}</div>
-                    <div style={{ color: '#6b7280', fontSize: '14px' }}>{wishlist.userEmail}</div>
+              <div key={wishlist.userId || idx} className="wishlist-card">
+                <div className="wishlist-header">
+                  <div className="wishlist-user">
+                    <div className="user-name">{wishlist.userName}</div>
+                    <div className="user-email">{wishlist.userEmail}</div>
                   </div>
-                  <span style={{ 
-                    padding: '4px 12px', 
-                    borderRadius: 20, 
-                    fontSize: '12px',
-                    background: '#fef3c7',
-                    color: '#92400e'
-                  }}>
+                  <span className="wishlist-count-badge">
                     {wishlist.itemCount} items
                   </span>
                 </div>
                 {wishlist.wishlistItems && wishlist.wishlistItems.length > 0 ? (
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 12 }}>
+                  <div className="wishlist-items">
                     {wishlist.wishlistItems.map((item, itemIdx) => (
-                      <div key={item._id || itemIdx} style={{ border: '1px solid #f3f4f6', borderRadius: 6, padding: 8 }}>
-                        <div style={{ fontWeight: 'bold', fontSize: '14px', marginBottom: 4 }}>{item.name}</div>
-                        <div style={{ color: '#6b7280', fontSize: '12px' }}>₹{item.price}</div>
-                        <div style={{ color: '#6b7280', fontSize: '12px' }}>{item.category} → {item.subcategory}</div>
+                      <div key={item._id || itemIdx} className="wishlist-item">
+                        <div className="item-name">{item.name}</div>
+                        <div className="item-price">₹{item.price}</div>
+                        <div className="item-category">{item.category} → {item.subcategory}</div>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <div style={{ color: '#9ca3af', fontStyle: 'italic' }}>No items in wishlist</div>
+                  <div className="empty-wishlist">No items in wishlist</div>
                 )}
               </div>
             ))}
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
 
 export default Admin;
-
-

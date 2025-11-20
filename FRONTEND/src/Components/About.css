@@ -1,3 +1,14 @@
+/* ================================================
+   🌟 ABOUT SECTION — PROFESSIONAL CSS FORMAT
+   Author: (your name)
+   Purpose: About page styling with glassmorphism,
+            gradients, floating animations, and 
+            responsive design.
+================================================ */
+
+/* -------------------------------
+   SECTION LAYOUT
+--------------------------------*/
 .about-section {
   padding: 100px 20px;
   background: linear-gradient(180deg, #ffffff 0%, #f7f5ff 100%);
@@ -6,7 +17,9 @@
   font-family: 'Poppins', sans-serif;
 }
 
-/* 🌈 Animated Glow Backgrounds */
+/* -------------------------------
+   BACKGROUND FLOATING CIRCLES
+--------------------------------*/
 .about-background-circle,
 .about-background-circle-2 {
   position: absolute;
@@ -33,6 +46,9 @@
   background: radial-gradient(circle, rgba(167, 139, 250, 0.4), rgba(219, 234, 254, 0.15));
 }
 
+/* -------------------------------
+   CONTAINER
+--------------------------------*/
 .about-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -40,7 +56,9 @@
   z-index: 2;
 }
 
-/* 🏵️ Header */
+/* -------------------------------
+   HEADER STYLING
+--------------------------------*/
 .about-header {
   text-align: center;
   margin-bottom: 80px;
@@ -49,13 +67,12 @@
 .about-title {
   font-size: 3.6rem;
   font-weight: 800;
-  color: #4c1d95;
-  margin-bottom: 25px;
   letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 25px;
   background: linear-gradient(90deg, #7C3AED, #C084FC);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-transform: uppercase;
   position: relative;
 }
 
@@ -67,21 +84,23 @@
   transform: translateX(-50%);
   width: 100px;
   height: 4px;
-  background: linear-gradient(90deg, #A78BFA, #7C3AED, #C084FC);
   border-radius: 2px;
+  background: linear-gradient(90deg, #A78BFA, #7C3AED, #C084FC);
   box-shadow: 0 0 15px rgba(167, 139, 250, 0.6);
 }
 
 .about-subtitle {
-  color: #6b7280;
   font-size: 1.25rem;
+  font-weight: 400;
+  color: #6b7280;
   line-height: 1.8;
   max-width: 750px;
   margin: 25px auto 0;
-  font-weight: 400;
 }
 
-/* 🌍 Grid Section */
+/* -------------------------------
+   GRID: CONTINENTS
+--------------------------------*/
 .about-continents {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -89,29 +108,37 @@
   margin-top: 60px;
 }
 
-/* 💎 Cards */
+/* -------------------------------
+   CONTINENT CARDS
+--------------------------------*/
 .continent-card {
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 20px;
+  position: relative;
   padding: 35px 30px;
-  border: 2px solid transparent;
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.8);
   background-clip: padding-box;
   backdrop-filter: blur(20px);
+  border: 2px solid transparent;
   box-shadow: 0 8px 25px rgba(124, 58, 237, 0.08);
   transition: all 0.5s ease;
-  position: relative;
-  overflow: hidden;
 }
 
 .continent-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #a78bfa, #c084fc, #7c3aed);
-  border-radius: 20px;
-  opacity: 0;
   z-index: -1;
+  opacity: 0;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #a78bfa, #c084fc, #7c3aed);
   transition: opacity 0.5s ease;
+}
+
+.continent-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: rgba(167, 139, 250, 0.4);
+  box-shadow: 0 15px 35px rgba(124, 58, 237, 0.2);
 }
 
 .continent-card:hover::before {
@@ -119,84 +146,36 @@
   filter: blur(25px);
 }
 
-.continent-card:hover {
-  transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 15px 35px rgba(124, 58, 237, 0.2);
-  border-color: rgba(167, 139, 250, 0.4);
-}
-
 .continent-card h3 {
-  font-size: 1.7rem;
-  font-weight: 700;
-  color: #7C3AED;
-  margin-bottom: 15px;
   display: flex;
   align-items: center;
   gap: 8px;
+  margin-bottom: 15px;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #7C3AED;
 }
 
 .continent-card p {
-  color: #4b5563;
-  line-height: 1.8;
   font-size: 1.1rem;
   font-weight: 400;
-}
-
-/* 💫 Footer */
-.about-footer {
-  margin-top: 80px;
-  text-align: center;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
   color: #4b5563;
-  font-size: 1.15rem;
-  line-height: 1.9;
-  padding-top: 50px;
-  border-top: 2px solid rgba(167, 139, 250, 0.2);
-  position: relative;
+  line-height: 1.8;
 }
 
-.about-footer::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 3px;
-  background: linear-gradient(90deg, #7C3AED, #C084FC);
-  border-radius: 2px;
-  box-shadow: 0 0 10px rgba(167, 139, 250, 0.6);
-}
-
-/* 🌀 Floating Animation */
-@keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-25px) rotate(5deg); }
-}
-
-/* 📱 Responsive Design */
-@media (max-width: 1024px) {
-  .about-title { font-size: 3rem; }
-}
-
-@media (max-width: 768px) {
-  .about-section { padding: 80px 15px; }
-  .about-title { font-size: 2.5rem; }
-  .about-subtitle { font-size: 1.1rem; }
-  .continent-card { padding: 28px 22px; }
-}
+/* -------------------------------
+   ABOUT TEXT BOX
+--------------------------------*/
 .about-text {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px;
   text-align: center;
   color: #3b0764;
   font-size: 1.2rem;
   line-height: 1.9;
-  max-width: 900px;
-  margin: 0 auto;
-  background: linear-gradient(145deg, #f3e8ff, #ede9fe);
-  padding: 40px;
   border-radius: 20px;
+  background: linear-gradient(145deg, #f3e8ff, #ede9fe);
   box-shadow: 0 6px 25px rgba(124, 58, 237, 0.1);
   transition: all 0.4s ease;
 }
@@ -214,4 +193,71 @@
 
 .about-text p:last-child {
   margin-bottom: 0;
+}
+
+/* -------------------------------
+   FOOTER SECTION
+--------------------------------*/
+.about-footer {
+  margin: 80px auto 0;
+  padding-top: 50px;
+  max-width: 900px;
+  text-align: center;
+  color: #4b5563;
+  font-size: 1.15rem;
+  line-height: 1.9;
+  border-top: 2px solid rgba(167, 139, 250, 0.2);
+  position: relative;
+}
+
+.about-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 80px;
+  height: 3px;
+  transform: translateX(-50%);
+  border-radius: 2px;
+  background: linear-gradient(90deg, #7C3AED, #C084FC);
+  box-shadow: 0 0 10px rgba(167, 139, 250, 0.6);
+}
+
+/* -------------------------------
+   FLOATING ANIMATION
+--------------------------------*/
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-25px) rotate(5deg);
+  }
+}
+
+/* -------------------------------
+   RESPONSIVE DESIGN
+--------------------------------*/
+@media (max-width: 1024px) {
+  .about-title {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-section {
+    padding: 80px 15px;
+  }
+
+  .about-title {
+    font-size: 2.5rem;
+  }
+
+  .about-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .continent-card {
+    padding: 28px 22px;
+  }
 }
