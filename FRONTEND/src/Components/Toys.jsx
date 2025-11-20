@@ -30,7 +30,7 @@ const toyItems = [
 
 function Toys() {
   return (
-    <section className="toy-section">
+    <section className="toy">
       <h1 className="toy-title">Toy Discount Zone</h1>
       <div className="toy-grid">
         {toyItems.map((item, index) => (
